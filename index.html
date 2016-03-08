@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+svg{
+  border: solid black 1px;
+}
+
+.bar {
+  fill: blue;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+</style>
+<body>
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+<script>
+
+var margin = {top: 30, right: 30, bottom: 40, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.linear()
+.domain([1985,2014])
+.range([0, width]);
+
+var yTemp = d3.scale.linear()
+	.domain([0,1])
+    .range([height, 0]);
+
+var yCO2 = d3.scale.linear()
+	.domain([350,500])
+    .range([height, 0]);
+
+
+var tempLine = d3.svg.line()
+    .x(function(d) { return xScale(d.year); })
+    .y(function(d) { return yTemp(d.temp); });
+
+var co2Line = d3.svg.line()
+    .x(function(d) { return xScale(d.year); })
+    .y(function(d) { return yCO2(d.CO2); });
+
+
+var xAxis = d3.svg.axis()
+	.scale(xScale)
+    .orient("bottom")
+    .ticks(10)
+    .tickFormat(d3.format("d"));
+
+var yAxisLeft = d3.svg.axis()
+    .scale(yTemp)
+    .orient("left")
+    .ticks(10);
+
+var yAxisRight = d3.svg.axis()
+    .scale(yCO2)
+    .orient("right")
+    .ticks(10);
+
+var svg = d3.select("body")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+              "translate(" + margin.left + "," + margin.top + ")");
+
+
+d3.csv("AGGI_Table.csv", function(error, data) {
+    data = data.map( function (d) { 
+    return { 
+      year: d.Year,
+      CO2: d.co2ppm }; 
+	});   
+
+console.log(data);
+
+svg.append("path")        		
+    .attr("d", co2Line(data))
+  	.attr("stroke", "green")
+	.attr("stroke-width", "5px")
+    .attr("fill", "none");
+
+
+});
+
+d3.csv("GLB.Ts.csv", function(error, data) {
+    data = data.map( function (d) { 
+    return { 
+      year: d.Year,
+      temp: d.JD/100 }; 
+	});   
+
+console.log(data);
+
+svg.append("path")        		
+    .attr("d", tempLine(data))
+  	.attr("stroke", "red")
+	.attr("stroke-width", "5px")
+    .attr("fill", "none");
+
+svg.append("g")
+	.attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxisLeft)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    .text("\xB0 C Above 1951-1980 Average");
+
+svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + width + " ,0)")	
+    .call(yAxisRight)
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -6)
+    .style("text-anchor", "end")
+    .text("CO2 Levels (ppm)");
+
+svg.append("text")
+    .attr("class", "x label")
+    .attr("x", width/2)
+    .attr("y", height + 35)
+    .text("Year");
+
+svg.append("text")
+    .attr("class", "title")
+    .attr("x", width/2)
+    .attr("y", 15)
+	.style("text-anchor", "middle")
+    .text("CO2 Levels and Global Average Temperatures by Year");
+
+});
+
+</script>
+</body>
