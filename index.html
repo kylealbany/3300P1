@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+/* Kyle's Style */
 svg{
   border: solid black 1px;
 }
@@ -22,12 +22,121 @@ svg{
 }
 
 
+/* Start of Jane's */
+
+body{
+background-color:#f2f2f2;
+}
+svg{
+  border:none; /*solid black 1px;*/
+}
+
+.bar {
+  fill: #0066cc;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+
+.circletext {
+    text-anchor: middle;
+    font-size:110%;
+    fill:#e6e6e6;
+    font-weight:bold;
+    text-shadow: 1px 1px #002633;
+}
+
+.circletext2 {
+    text-anchor: middle;
+    font-size:160%;
+    fill:white;
+    font-weight:bold;
+    text-shadow: 1px 1px #002633;
+}
+        
+
+.circle{
+fill:#00ace6;
+/*#00bfff; 
+/*#80aaff;*/
+
+}
+.blu{
+fill:#0066cc;
+}
+
+.stats{
+text-anchor:middle;
+font-size:90%;
+font-weight:lighter;
+}
+.redtext{
+fill:red;
+font-size:140%;
+text-anchor:middle;
+font-weight:bold;
+}
+text{
+font:sans-serif;
+}
+.conclusion{
+text-anchor:middle;
+font-size:110%;
+font-weight:bold;
+fill:red;
+}
+
+
+/* Summer's Style */
+
+svg{
+  border: solid black 1px;
+}
+
+.bar {
+  fill: blue;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+
+/* End of Summer's */
 </style>
+
 <body>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 <script>
+
+
+//Kyle's graph
 
 var margin = {top: 30, right: 30, bottom: 40, left: 50},
     width = 960 - margin.left - margin.right,
@@ -153,5 +262,183 @@ svg.append("text")
 
 });
 
+//Summer's graph
+
+var margin = {top: 30, right: 30, bottom: 40, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data.tsv", type, function(error, data) {
+  if (error) throw error;
+
+  x.domain(data.map(function(d) { return d.year; }));
+  y.domain([-15, d3.max(data, function(d) { return d.variation; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Sea Level Variation(mm)");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.year); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.variation); })
+      .attr("height", function(d) { return height - y(d.variation); });
+});
+
+function type(d) {
+  d.variation = +d.variation;
+  return d;
+}
+
+//Jane's graph
+
+var margin = {top: 30, right: 30, bottom: 40, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data.tsv", type, function(error, data) {
+  if (error) throw error;
+
+  x.domain(data.map(function(d) { return d.year; }));
+  y.domain([-15, d3.max(data, function(d) { return d.variation; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Sea Level Variation(mm)");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.year); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.variation); })
+      .attr("height", function(d) { return height - y(d.variation); });
+});
+
+function type(d) {
+  d.variation = +d.variation;
+  return d;
+}
+
 </script>
+
+<svg width="1500" height="500">
+<circle class="blu" cx="125" cy="90" r="57.4" />
+<text x="125" y="90" class="circletext">6.9</text>
+
+<circle class="circle" cx="248" cy="90" r="57.4" />
+<circle class="blu" cx="248" cy="90" r="54.85" />
+<text x="248" y="90" class="circletext">6.3</text>
+
+<circle fill="#99ebff" cx="369" cy="90" r="57.4" />
+<circle class="circle" cx="369" cy="90" r="54.85" />
+<circle class="blu" cx="369" cy="90" r="54.63" />
+<text x="369" y="90" class="circletext">6.25</text>
+
+<circle fill="#99ebff" cx="495" cy="90" r="57.4" />
+<circle class="circle" cx="495" cy="90" r="54.63" />
+<circle class="blu" cx="495" cy="90" r="52.76" />
+<text x="495" y="90" class="circletext">5.83</text>
+
+<circle fill="#99ebff" cx="618" cy="90" r="57.4" />
+<circle class="circle" cx="618" cy="90" r="52.76" />
+<circle class="blu" cx="618" cy="90" r="47.72" />
+<text x="618" y="90" class="circletext">4.77</text>
+
+<circle fill="#99ebff" cx="740" cy="90" r="57.4" />
+<circle class="circle" cx="740" cy="90" r="47.72" />
+<circle class="blu" cx="740" cy="90" r="45.68" />
+<text x="740" y="90" class="circletext">4.37</text>
+
+<circle fill="#99ebff" cx="860" cy="90" r="57.4" />
+<circle class="circle" cx="860" cy="90" r="45.68" />
+<circle class="blu" cx="860" cy="90" r="48" />
+<text x="860" y="90" class="circletext">4.83</text>
+
+
+<text x="1070" y="45" class="stats" >Overall Average Loss</text>
+<circle cx="1070" cy="90" r="31.44" fill="#80e5ff" />
+<text x="1070" y="90" class="circletext">2.07</text>
+<text x="1210" y="30" class="stats" >Average Still Left</text>
+<circle cx="1210" cy="90" r="48" class="blu" />
+<text x="1210" y="90" class="circletext">4.83</text>
+
+
+<text x="1350" y="90" class="redtext">30% Loss</text>
+<text x="1350" y="110" class="conclusion" >of Arctic Ice</text>
+
+<text x="260" y="164" class="stats">Arctic Ice Amount in millions of square kilometers</text>
+
+</svg>
+
+
+
 </body>
