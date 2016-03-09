@@ -2,11 +2,43 @@
 <head>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">x
+
 <style>
 /* Kyle's Style */
-svg{
-  border: solid black 1px;
+
+body{
+background-color:white;
+top:0;
+position: absolute;
+margin: 0;
+padding: 0;
 }
+
+#header{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 120px;
+  border-radius: 0 0 5px 5px;
+  background-color: #00b3b3;
+}
+
+#header p{
+  font-family: 'Roboto', sans-serif;
+  font-size: 45px;
+  color: white;
+  text-align: center;
+}
+
+svg1{
+  position: relative;
+  margin: 20px;
+  border: none;
+}
+
+
+
 .bar {
   fill: blue;
 }
@@ -20,12 +52,8 @@ svg{
   shape-rendering: crispEdges;
 }
 /* Start of Jane's */
-body{
-background-color:#f2f2f2;
-}
-svg{
-  border:none; /*solid black 1px;*/
-}
+
+
 .bar {
   fill: #0066cc;
 }
@@ -38,9 +66,7 @@ svg{
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.x.axis path {
-  display: none;
-}
+
 .circletext {
     text-anchor: middle;
     font-size:110%;
@@ -87,6 +113,7 @@ fill:red;
 /* Summer's Style */
 svg{
   border: solid black 1px;
+  margin-left: 200px
 }
 .bar {
   fill: blue;
@@ -100,9 +127,7 @@ svg{
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.x.axis path {
-  display: none;
-}
+
 /* End of Summer's */
 </style>
 <title>Global Warming Trend </title>
@@ -112,6 +137,10 @@ svg{
 
 
 <body>
+<div id="header">
+<p> Global Warming Trend </p>
+</div> 
+
 <script>
 //Kyle's graph
 var margin = {top: 30, right: 30, bottom: 40, left: 50},
@@ -172,7 +201,7 @@ d3.csv("GLB.Ts.csv", function(error, data) {
       year: d.Year,
       temp: d.JD/100 }; 
 	});   
-console.log(data);
+
 svg1.append("path")        		
     .attr("d", tempLine(data))
   	.attr("stroke", "red")
@@ -266,7 +295,7 @@ function type(d) {
 } 
 </script>
 
-<svg width="1500" height="500">
+<svg width="1000" height="400">
 <circle class="blu" cx="125" cy="90" r="57.4" />
 <text x="125" y="90" class="circletext">6.9</text>
 
@@ -298,7 +327,9 @@ function type(d) {
 <circle class="circle" cx="860" cy="90" r="45.68" />
 <circle class="blu" cx="860" cy="90" r="48" />
 <text x="860" y="90" class="circletext">4.83</text>
+</svg> <br>
 
+<svg width="700" height="500">
 
 <text x="1070" y="45" class="stats" >Overall Average Loss</text>
 <circle cx="1070" cy="90" r="31.44" fill="#80e5ff" />
