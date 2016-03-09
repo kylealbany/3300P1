@@ -32,20 +32,21 @@ padding: 0;
 }
 
 svg{
-  margin-left: 230px;
+  border: none;
+  margin-left: 200px
+}
+.axis {
+  font-family: 'Roboto',sans-serif;
 }
 
 #Temp{
   margin-top: 200px;
-  
- }
+}
 
 #Temp .title{
 font-family: 'Roboto',sans-serif;
 font-size: 20px;
 font-weight: bold;
-
-
 }
 
 #Temp text{
@@ -54,7 +55,7 @@ font-family: 'Roboto',sans-serif;
 }
 
 #sealevel{
-  margin-top: 50px;
+  margin-top: 100px;
  }
 
 
@@ -71,32 +72,14 @@ font-weight: bold;
 }
 
 
-.bar {
-  fill: blue;
-}
-.axis {
-  font: 10px sans-serif;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
 /* Start of Jane's */
 
-
 .bar {
-  fill: #003399;
+  fill: #0066cc;
 }
-.axis {
-  font: 10px sans-serif;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+
+#ice{
+  margin-top: 80px;
 }
 
 .circletext {
@@ -111,7 +94,7 @@ font-weight: bold;
     text-anchor: middle;
     font-family: 'Roboto',sans-serif;
     font-size:160%;
-    fill:white;
+    fill:#e6e6e6;
     font-weight:bold;
     text-shadow: 1px 1px #002633;
 }
@@ -139,7 +122,7 @@ font-weight:bold;
 }
 
 text{
-font:'Roboo', sans-serif;
+font:'Roboto', sans-serif;
 }
 .conclusion{
 text-anchor:middle;
@@ -147,19 +130,8 @@ font-size:110%;
 font-weight:bold;
 fill:red;
 }
-/* Summer's Style */
-svg{
-  border: none;
-  margin-left: 200px
-}
 
 
-.bar {
-  fill: blue;
-}
-.axis {
-  font: 10px sans-serif;
-}
 .axis path,
 .axis line {
   fill: none;
@@ -167,7 +139,9 @@ svg{
   shape-rendering: crispEdges;
 }
 
-/* End of Summer's */
+
+
+
 </style>
 <title>Global Warming Trend </title>
 </head>
@@ -342,7 +316,7 @@ function type(d) {
 } 
 </script>
 
-<svg width="960" height="200">
+<svg id="ice" width="960" height="200">
 <circle class="blu" cx="125" cy="90" r="57.4" />
 <text x="125" y="90" class="circletext">6.9</text>
 
