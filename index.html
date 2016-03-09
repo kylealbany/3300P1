@@ -31,12 +31,44 @@ padding: 0;
   text-align: center;
 }
 
-svg1{
-  position: relative;
-  margin: 20px;
-  border: none;
+svg{
+  margin-left: 230px;
 }
 
+#Temp{
+  margin-top: 200px;
+  
+ }
+
+#Temp .title{
+font-family: 'Roboto',sans-serif;
+font-size: 20px;
+font-weight: bold;
+
+
+}
+
+#Temp text{
+font-family: 'Roboto',sans-serif;
+  font-size: 15px;
+}
+
+#sealevel{
+  margin-top: 50px;
+ }
+
+
+#sealevel text{
+font-family: 'Roboto',sans-serif;
+  font-size: 15px;
+}
+
+
+#sealevel .title{
+font-family: 'Roboto',sans-serif;
+font-size: 20px;
+font-weight: bold;
+}
 
 
 .bar {
@@ -55,7 +87,7 @@ svg1{
 
 
 .bar {
-  fill: #0066cc;
+  fill: #003399;
 }
 .axis {
   font: 10px sans-serif;
@@ -69,6 +101,7 @@ svg1{
 
 .circletext {
     text-anchor: middle;
+    font-family: 'Roboto',sans-serif;
     font-size:110%;
     fill:#e6e6e6;
     font-weight:bold;
@@ -76,6 +109,7 @@ svg1{
 }
 .circletext2 {
     text-anchor: middle;
+    font-family: 'Roboto',sans-serif;
     font-size:160%;
     fill:white;
     font-weight:bold;
@@ -92,17 +126,20 @@ fill:#0066cc;
 }
 .stats{
 text-anchor:middle;
+font-family: 'Roboto',sans-serif;
 font-size:90%;
 font-weight:lighter;
 }
 .redtext{
 fill:red;
 font-size:140%;
+font-family: 'Roboto',sans-serif;
 text-anchor:middle;
 font-weight:bold;
 }
+
 text{
-font:sans-serif;
+font:'Roboo', sans-serif;
 }
 .conclusion{
 text-anchor:middle;
@@ -112,9 +149,11 @@ fill:red;
 }
 /* Summer's Style */
 svg{
-  border: solid black 1px;
+  border: none;
   margin-left: 200px
 }
+
+
 .bar {
   fill: blue;
 }
@@ -144,6 +183,7 @@ svg{
 <script>
 //Kyle's graph
 var margin = {top: 30, right: 30, bottom: 40, left: 50},
+    svgwidth=980 - margin.left - margin.right,
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 var xScale = d3.scale.linear()
@@ -161,7 +201,7 @@ var tempLine = d3.svg.line()
 var co2Line = d3.svg.line()
     .x(function(d) { return xScale(d.year); })
     .y(function(d) { return yCO2(d.CO2); });
-var xAxis = d3.svg.axis()
+var xAxisTemp = d3.svg.axis()
 	.scale(xScale)
     .orient("bottom")
     .ticks(10)
@@ -176,8 +216,8 @@ var yAxisRight = d3.svg.axis()
     .ticks(10);
 var svg1 = d3.select("body")
     .append("svg")
-      
-        .attr("width", width + margin.left + margin.right)
+        .attr("id", "Temp")
+        .attr("width", svgwidth + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
     .append("g")
         .attr("transform", 
@@ -210,7 +250,7 @@ svg1.append("path")
 svg1.append("g")
 	.attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    .call(xAxisTemp);
 svg1.append("g")
     .attr("class", "y axis")
     .call(yAxisLeft)
@@ -237,9 +277,9 @@ svg1.append("text")
 svg1.append("text")
     .attr("class", "title")
     .attr("x", width/2)
-    .attr("y", 15)
+    .attr("y", 0)
 	.style("text-anchor", "middle")
-  .text("CO2 Levels and Global Average Temperatures by Year");
+  .text("CO2 Levels and Global Average Temperatures by Year (1985-2014)");
 });
 
 
@@ -259,6 +299,7 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .ticks(10);
 var svg2 = d3.select("body").append("svg")
+    .attr("id", "sealevel")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -288,6 +329,12 @@ d3.tsv("data.tsv", type, function(error, data) {
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.variation); })
       .attr("height", function(d) { return height - y(d.variation); });
+  svg2.append("text")
+    .attr("class", "title")
+    .attr("x", width/2)
+    .attr("y", 0)
+  .style("text-anchor", "middle")
+  .text("Sea Level Change since 1995");
 });
 function type(d) {
   d.variation = +d.variation;
@@ -295,7 +342,7 @@ function type(d) {
 } 
 </script>
 
-<svg width="1000" height="400">
+<svg width="960" height="200">
 <circle class="blu" cx="125" cy="90" r="57.4" />
 <text x="125" y="90" class="circletext">6.9</text>
 
@@ -327,20 +374,22 @@ function type(d) {
 <circle class="circle" cx="860" cy="90" r="45.68" />
 <circle class="blu" cx="860" cy="90" r="48" />
 <text x="860" y="90" class="circletext">4.83</text>
-</svg> <br>
+</svg> 
 
-<svg width="700" height="500">
+<br>
 
-<text x="1070" y="45" class="stats" >Overall Average Loss</text>
-<circle cx="1070" cy="90" r="31.44" fill="#80e5ff" />
-<text x="1070" y="90" class="circletext">2.07</text>
-<text x="1210" y="30" class="stats" >Average Still Left</text>
-<circle cx="1210" cy="90" r="48" class="blu" />
-<text x="1210" y="90" class="circletext">4.83</text>
+<svg width="500" height="300">
+
+<text x="70" y="45" class="stats" >Overall Average Loss</text>
+<circle cx="70" cy="90" r="31.44" fill="#80e5ff" />
+<text x="70" y="90" class="circletext">2.07</text>
+<text x="150" y="30" class="stats" >Average Still Left</text>
+<circle cx="150" cy="90" r="48" class="blu" />
+<text x="150" y="90" class="circletext">4.83</text>
 
 
-<text x="1350" y="90" class="redtext">30% Loss</text>
-<text x="1350" y="110" class="conclusion" >of Arctic Ice</text>
+<text x="350" y="90" class="redtext">30% Loss</text>
+<text x="350" y="110" class="conclusion" >of Arctic Ice</text>
 
 <text x="260" y="164" class="stats">Arctic Ice Amount in millions of square kilometers</text>
 
