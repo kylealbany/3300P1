@@ -2,6 +2,7 @@
 <head>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="d3.legend.js"></script>
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">x
 
 <style>
@@ -53,6 +54,11 @@ font-weight: bold;
 font-family: 'Roboto',sans-serif;
   font-size: 15px;
 }
+
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:0.8;}
 
 #sealevel{
   margin-top: 100px;
@@ -205,6 +211,7 @@ d3.csv("AGGI_Table.csv", function(error, data) {
 
 svg1.append("path")        		
     .attr("d", co2Line(data))
+    .attr("data-legend", "CO2 Levels")
   	.attr("stroke", "green")
 	.attr("stroke-width", "5px")
     .attr("fill", "none");
@@ -218,6 +225,7 @@ d3.csv("GLB.Ts.csv", function(error, data) {
 
 svg1.append("path")        		
     .attr("d", tempLine(data))
+    .attr("data-legend", "\xB0 C Above 1951-1980 Average")
   	.attr("stroke", "red")
 	.attr("stroke-width", "5px")
     .attr("fill", "none");
@@ -254,6 +262,14 @@ svg1.append("text")
     .attr("y", 0)
 	.style("text-anchor", "middle")
   .text("CO2 Levels and Global Average Temperatures by Year (1985-2014)");
+
+
+svg1.append("g")
+  .attr("class","legend")
+  .attr("transform","translate(600,300)")
+  .style("font-size","12px")
+  .call(d3.legend)
+
 });
 
 
